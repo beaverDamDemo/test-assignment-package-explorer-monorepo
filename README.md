@@ -54,3 +54,9 @@ npm run test:frontend
 - Shared models are imported via path aliases.
 - Backend runs with `ts-node-dev` (no build step).
 - This is a **test assignment**, not a production project.
+
+## Todo (future)
+
+- Testing
+- Linting
+- Dockerization
