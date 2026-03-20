@@ -16,8 +16,8 @@ The project is intended for development only (no production builds).
 ## Project Structure
 
 apps/
-test-assignment-package-explorer-api/ # Backend (NestJS)
-test-assignment-package-explorer-frontend/ # Frontend (Angular)
+backend/ # Backend (NestJS)
+frontend/ # Frontend (Angular)
 libs/
 models/ # Shared interfaces
 package.json # Root workspace config

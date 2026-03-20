@@ -9,11 +9,11 @@ build/
 out/
 
 # Angular
-apps/test-assignment-package-explorer-frontend/.angular/
-apps/test-assignment-package-explorer-frontend/dist/
+apps/frontend/.angular/
+apps/frontend/dist/
 
 # NestJS
-apps/test-assignment-package-explorer-api/dist/
+apps/backend/dist/
 
 # TypeScript
 *.tsbuildinfo

@@ -7,11 +7,11 @@
     "libs/*"
   ],
   "scripts": {
-    "start:backend": "npm --workspace apps/test-assignment-package-explorer-api run start",
-    "start:frontend": "npm --workspace apps/test-assignment-package-explorer-frontend run start",
+    "start:backend": "npm --workspace apps/backend run start",
+    "start:frontend": "npm --workspace apps/frontend run start",
     "start:all": "npm-run-all --parallel start:backend start:frontend",
-    "test:backend": "npm --workspace apps/test-assignment-package-explorer-api run test",
-    "test:frontend": "npm --workspace apps/test-assignment-package-explorer-frontend run test"
+    "test:backend": "npm --workspace apps/backend run test",
+    "test:frontend": "npm --workspace apps/frontend run test"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",

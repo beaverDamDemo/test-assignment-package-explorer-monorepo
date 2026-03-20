@@ -1,0 +1,123 @@
+<div class="min-h-screen flex flex-col">
+  <header>
+    <mat-toolbar color="primary" class="h-16 flex justify-between items-center px-4 shadow-md">
+      <a routerLink="/" class="text-lg font-semibold">
+        <img src="logo.png" alt="Logo" class="inline h-8 ml-2" />
+      </a>
+
+      <h1>{{ title() }}</h1>
+
+      <div class="flex items-center gap-2">
+        <button class="p-2 flex cursor-pointer" mat-icon-button (click)="toggleTheme()" aria-label="Toggle theme">
+          <mat-icon>
+            {{ currentTheme === 'dark' ? 'dark_mode' : 'light_mode' }}
+          </mat-icon>
+        </button>
+      </div>
+    </mat-toolbar>
+    @if (dependenciesLoading()) {
+    <mat-progress-bar mode="indeterminate" color="accent" class="deps-loader">
+    </mat-progress-bar>
+    }
+  </header>
+
+  <main class="flex-grow p-3" [attr.aria-busy]="loading()">
+    <div class="mb-4 flex items-center gap-2">
+      <div class="relative flex-grow">
+        <input type="text" placeholder="Filter packages by name..."
+          class="w-full p-2 rounded border border-gray-300 bg-transparent" [value]="filterText()"
+          (input)="filterText.set($any($event.target).value)" [disabled]="loading()" />
+        @if (filterText()) {
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700
+         flex items-center justify-center w-6 h-6 rounded" (click)="filterText.set('')">
+          <mat-icon fontIcon="close" class="text-base"></mat-icon>
+        </button>
+        }
+      </div>
+      <mat-form-field appearance="outline" class="w-40">
+        <mat-label>Sort by</mat-label>
+        <mat-select [value]="sortMode()" (selectionChange)="sortMode.set($event.value)">
+          <mat-option value="alpha">Alphabetical</mat-option>
+          <mat-option value="downloads">Downloads</mat-option>
+          <mat-option value="deps">Dependencies</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-icon-button (click)="reload()" class="refresh-button">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+
+    @if (loading()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Loading packages">
+      @for (index of skeletonItems; track index) {
+      <div class="skeleton-card">
+        <div class="skeleton-card-header flex items-baseline gap-2">
+          <div class="skeleton skeleton-line h-5 w-1/3"></div>
+          <div class="skeleton skeleton-line h-5 w-1/4"></div>
+        </div>
+
+        <div class="mt-4 space-y-3">
+          <div class="flex items-center gap-2">
+            <div class="skeleton skeleton-line h-6 w-16"></div>
+            <div class="skeleton skeleton-icon h-5 w-5 rounded-full"></div>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="skeleton skeleton-line h-6 w-12"></div>
+            <div class="skeleton skeleton-line h-4 w-24"></div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+    } @else {
+    @if (!loading() && errorMessage() && loading() === false && hasLoaded()=== true) {
+    <!-- ERROR STATE -->
+    <div class="state-card error-state" role="alert" aria-live="assertive">
+      <mat-icon class="state-icon" aria-hidden="true">error_outline</mat-icon>
+      <p class="state-title">Unable to load packages</p>
+      <p class="state-message">{{ errorMessage() }}</p>
+      <div class="state-action">
+        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
+      </div>
+    </div>
+    } @else {
+    @if (!loading() && !errorMessage() && hasLoaded() && filteredPackages().length === 0) {
+    <!-- EMPTY STATE -->
+    <div class="state-card empty-state" role="status" aria-live="polite">
+      <mat-icon class="state-icon" aria-hidden="true">search_off</mat-icon>
+      <p class="state-title">No packages found</p>
+      <p class="state-message">
+        @if (filterText()) {
+        No packages match "<strong>{{ filterText() }}</strong>". Try a different filter or
+        <button mat-button class="clear-button p-0" (click)="filterText.set('')">clear</button>
+        .
+        } @else {
+        There are no packages available right now.
+        }
+      </p>
+      <div class="state-action">
+        <button mat-raised-button color="primary" (click)="reload()">Try again</button>
+      </div>
+    </div>
+    } @else {
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (p of filteredPackages(); track p.id) {
+      <app-single-package-card [pkg]="p" [isHovered]="hoveredPackage() === p.id"
+        [isDependency]="highlightedDependencies().has(p.id)" (hoverStart)="onHoverStart(p)" (hoverEnd)="onHoverEnd()"
+        [disabled]="dependenciesLoading()" tabindex="0" />
+      }
+    </div>
+    }
+    }
+    }
+  </main>
+
+  <footer>
+    <mat-toolbar color="primary" class="h-14 flex items-center justify-center">
+      <span class="text-xs">
+        &copy; {{ currentYear }} Zdenko Vuk
+      </span>
+    </mat-toolbar>
+  </footer>
+</div>

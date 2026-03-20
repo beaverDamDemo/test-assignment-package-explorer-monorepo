@@ -1,0 +1,23 @@
+<mat-card class="package-card" (mouseenter)="hoverStart.emit()" (mouseleave)="hoverEnd.emit()"
+  [class.is-hovered]="isHovered" [class.is-dependency]="isDependency">
+  <div class="package-header">
+    @if (scope) {
+    <span class="package-scope">{{ scope }}</span>
+    <span>/{{ name }}</span>
+    } @else {
+    <span>{{ name }}</span>
+    }
+  </div>
+
+  <div class="package-body">
+    <div class="downloads">
+      <span class="value">{{ formattedDownloads }}</span>
+      <mat-icon>download</mat-icon>
+    </div>
+
+    <div class="deps">
+      <span class="value">{{ pkg.dependencyCount }}</span>
+      <span class="label">dependencies</span>
+    </div>
+  </div>
+</mat-card>
