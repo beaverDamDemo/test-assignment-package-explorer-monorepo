@@ -1,0 +1,30 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build output
+dist/
+build/
+out/
+
+# Angular
+apps/test-assignment-package-explorer-frontend/.angular/
+apps/test-assignment-package-explorer-frontend/dist/
+
+# NestJS
+apps/test-assignment-package-explorer-api/dist/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
